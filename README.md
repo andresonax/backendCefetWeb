@@ -1,2 +1,2 @@
-# backendCefetWeb
-Aulas Backend Web Cefet 2023
+# Repositório Aulas Web CEFET 2023
+Projeto de Backend Desenvovido em NodeJS
