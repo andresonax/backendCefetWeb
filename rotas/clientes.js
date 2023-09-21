@@ -1,13 +1,12 @@
 const express = require("express")
 const connection = require("../config/database")
-
 module.exports = (app) => {
     const rotas = express.Router()
 
     rotas.get("/novarota", (req, res) => {
         res.send("Nova rota para clientes")
     })
-    rotas.get('/clientes', (req, res) => {
+    rotas.get('/clientes',  (req, res) => {
         connection.query(
           'select * from cliente',
           (err, results, fields) => {

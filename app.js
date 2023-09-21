@@ -6,8 +6,17 @@ const bodyParser = require("body-parser")
 const moment = require("moment")
 const formData = require("express-form-data")
 const fs = require("fs")
+const cors = require("cors")
 app.use(formData.parse())
 app.use(bodyParser.urlencoded({extended : true}))
+
+var corsOptions = {
+  origin: 'http://127.0.0.1:5501',
+  optionsSuccessStatus: 200 
+}
+
+app.use(cors(corsOptions))
+
 
 //MONTANDO MINHAS ROTAS
 require("./rotas/clientes")(app)
