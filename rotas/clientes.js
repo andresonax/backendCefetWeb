@@ -1,14 +1,16 @@
 const express = require("express")
 const connection = require("../config/database")
+const moment = require("moment")
+const fs = require("node:fs")
 module.exports = (app) => {
     const rotas = express.Router()
 
     rotas.get("/novarota", (req, res) => {
         res.send("Nova rota para clientes")
     })
-    rotas.get('/clientes',  (req, res) => {
+    rotas.get('/clientes_all',  (req, res) => {
         connection.query(
-          'select * from cliente',
+          'select * from cliente order by id_cliente desc limit 10 ',
           (err, results, fields) => {
             if(err) console.log(err)
             res.send(results)
@@ -16,13 +18,24 @@ module.exports = (app) => {
         );
       })
       
-      rotas.get('/clientes/:id_cliente', (req, res) => {
+      rotas.get('/clientes_byid/:id_cliente', (req, res) => {
         var id_cliente = req.params.id_cliente 
         connection.query(
           `select * from cliente where id_cliente = ${id_cliente}`,
           (err, results, fields) => {
             if(err) console.log(err)
-            res.send(results)
+            console.log(results)
+            var resultado = {}
+            if(results.length > 0){
+              resultado.id_cliente = results[0].id_cliente
+              resultado.nome = results[0].nome
+              resultado.sobrenome = results[0].sobrenome
+              resultado.email = results[0].email
+              resultado.salario = results[0].salario
+              resultado.data_cadastro = results[0].data_cadastro
+            }
+            
+            res.send(resultado)
           }
         );
       })
@@ -57,7 +70,7 @@ module.exports = (app) => {
         var email = req.body.email
         var data_cadastro = moment().format("YYYY-MM-DD")
         var salario = req.body.salario
-        console.log(req.files)
+        console.log(req.body)
         var sql = `insert into cliente(nome, sobrenome, email, `+
               `data_cadastro,salario) values("${nome}", "${sobrenome}", `+
               `"${email}", "${data_cadastro}", ${salario})`
@@ -67,9 +80,9 @@ module.exports = (app) => {
             var caminhoNovo = `./uploads/clientes/${resultado.insertId}.png`
             fs.copyFile(caminhoTemp, caminhoNovo, (err) => {
               console.log(err)
-              res.send(resultado)
+             
             })
-            
+             res.send(resultado)
          })
       })
       

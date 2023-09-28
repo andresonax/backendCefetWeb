@@ -3,7 +3,6 @@ const app = express()
 
 const port = 3000
 const bodyParser = require("body-parser")
-const moment = require("moment")
 const formData = require("express-form-data")
 const fs = require("fs")
 const cors = require("cors")
@@ -15,7 +14,9 @@ var corsOptions = {
   optionsSuccessStatus: 200 
 }
 
-app.use(cors(corsOptions))
+app.use(express.static('uploads'))
+app.use(cors())
+
 
 
 //MONTANDO MINHAS ROTAS
