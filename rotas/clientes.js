@@ -65,6 +65,7 @@ module.exports = (app) => {
       })
       
       rotas.post('/clientes',  (req, res) => {
+        console.log(req.body)
         var nome = req.body.nome
         var sobrenome = req.body.sobrenome
         var email = req.body.email
@@ -87,9 +88,16 @@ module.exports = (app) => {
       })
       
       rotas.patch('/clientes/:id_cliente', (req, res) => {
-        var sql = `update cliente set nome = "JoaoAula", `+
-          `sobrenome = "SilvaAula", email = "outro@outro.com", `+
-          `salario = 2500 where id_cliente = 56`
+        var id_cliente = req.params.id_cliente
+        console.log("corpo",req.body)
+        console.log("id_cliente",id_cliente)
+        var nome = req.body.nome
+        var sobrenome = req.body.sobrenome
+        var email = req.body.email
+        var salario = req.body.salario
+        var sql = `update cliente set nome = "${nome}", `+
+          `sobrenome = "${sobrenome}", email = "${email}", `+
+          `salario = ${salario} where id_cliente = ${id_cliente}`
          connection.query(sql, (erro, resultado) =>{
             if(erro) res.send(erro)
             res.send(resultado)
